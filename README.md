@@ -1,6 +1,11 @@
 # theblast
 
 A new Flutter project.
+Implementation of BLAST(Basic Local Alignment Search Tool) algorithm in Dart.
+This code can provide you with a glimpse of how BLAST works and how it can actually be realised in code.
+This BLAST search is based on nucleotide-nucleotide search. Amino acid search  we may be provided on this repository.
+Sorry for lack of comments in the source code. This change will also be done soon.
+
 
 ## Getting Started
 
