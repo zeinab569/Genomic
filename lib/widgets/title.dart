@@ -1,5 +1,6 @@
-import 'package:blast/helpers/commens.dart';
+
 import 'package:flutter/material.dart';
+import 'package:theblast/helpers/commens.dart';
 
 
 class CustomText extends StatelessWidget {

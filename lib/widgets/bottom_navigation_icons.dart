@@ -1,5 +1,6 @@
-import 'package:blast/widgets/title.dart';
+
 import 'package:flutter/material.dart';
+import 'package:theblast/widgets/title.dart';
 
 import '../helpers/commens.dart';
 

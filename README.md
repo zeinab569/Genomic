@@ -22,6 +22,7 @@ threshold
 • Extend words in both directions until score falls by dropoff value X
 when compared to previous best score 
 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
