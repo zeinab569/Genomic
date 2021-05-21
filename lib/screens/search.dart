@@ -1,8 +1,11 @@
   
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:theblast/widgets/NAV.dart';
 import 'package:theblast/widgets/checkbox.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
+
 class Search extends StatefulWidget {
 
   @override
@@ -10,6 +13,53 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  PlatformFile objFile = null;
+
+  void chooseFileUsingFilePicker() async {
+    //-----pick file by file picker,
+
+    var result = await FilePicker.platform.pickFiles(
+      withReadStream:
+          true, // this will return PlatformFile object with read stream
+    );
+    if (result != null) {
+      setState(() {
+        objFile = result.files.single;
+      });
+    }
+  }
+
+  
+
+   void uploadSelectedFile() async {
+    //---Create http package multipart request object
+    final request = http.MultipartRequest(
+      "POST",
+      Uri.parse("Your API URL"),
+    );
+    //-----add other fields if needed
+    request.fields["id"] = "abc";
+
+    //-----add selected file with request
+    request.files.add(new http.MultipartFile(
+        "Your parameter name on server side", objFile.readStream, objFile.size,
+        filename: objFile.name));
+
+    //-------Send request
+    var resp = await request.send();
+
+    //------Read response
+    String result = await resp.stream.bytesToString();
+
+    //-------Your response
+    print(result);
+  }
+
+
+
+
+
+
   var checkbox1 =false;
   var radio=0;
   checkbox(bool val){
@@ -112,15 +162,16 @@ class _SearchState extends State<Search> {
                             Padding(
                               padding: const EdgeInsets.only(left:8),
 
-                              child: FlatButton(
-                                  onPressed:(){
-                                    print("choose file");
-                                  },
+                              child: RaisedButton(
                                   child:Text("Choose File"),
-                                 color: Colors.white,
-                                textColor: Colors.black,
-                              ),
-                            ),
+                                  color: Colors.white,
+                                  textColor: Colors.black,
+                                  onPressed: () => chooseFileUsingFilePicker()),
+                                     //------Show file name when file is selected
+                             ),
+
+                             
+
                             Padding(
                               padding: const EdgeInsets.only(left:8,top: 1),
                               child: Text("No choose file",style: TextStyle(fontWeight: FontWeight.w500),),
@@ -176,7 +227,7 @@ class _SearchState extends State<Search> {
                     color: Colors.white70,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Program Selection",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: Colors.teal),
+                      child: Text("Program Selection",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,),
                       ),
                 ),
                   ),
@@ -234,11 +285,39 @@ class _SearchState extends State<Search> {
                   ),
                 ],
               ),
-            )
+            ),
+
+            SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:110,right: 110,top: 10,bottom: 20),
+                child: Container(
+                  color: Colors.teal,
+                  height:50,
+                  width: 20,
+                  child: FlatButton(
+                    onPressed: launchURL2,
+                    child: Text("Blast",style: TextStyle(color: Colors.white,fontSize: 32,),),
+                  ),
+                ),
+              ),
           ]
         ),
 
       ),
     );
   }
+
+
+
+  launchURL2() async {
+    const url = 'http://127.0.0.1:5000/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 }

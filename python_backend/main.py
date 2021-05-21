@@ -1,3 +1,4 @@
+from os import urandom
 from sys import argv
 from typing import Dict, List
 import tqdm
@@ -8,8 +9,8 @@ app = Flask(__name__)
 cors = CORS(app)
 
 
-query_file = "./data/query_small.fa"
-data_file = "./data/subject_small.fasta"
+query_file = "C:.\python_backend\data\query_small.fa"
+data_file = "C:.\python_backend\data\subject_small.fasta"
 split_len = 11
 # if below, sw removes
 minscore = 22
@@ -87,30 +88,31 @@ def blastn(query_file=query_file, data_file=data_file, split_len=20, minscore=22
                       mismatch=sw_match,
                       gap=sw_gap)
 
-    print('filtered_query\n', filtered_query)
+    """print('filtered_query\n', filtered_query)
     print('Exact matches\n', exact_matches)
     print('Adjacent pairs\n', adjacent_pairs)
     print('Extended\n', extended_pairs)
-    print('Sorted\n', sorted_epairs)
+    print('Sorted\n', sorted_epairs)"""
 
-    """print('Writing output...')
+    print('Writing output...')
     builder = ""
     for data_name, queries in tqdm.tqdm(sorted_epairs.items()):
         for query_name, epairs in queries.items():
             for epair in epairs:
-                builder += "\n" \
-                           + f"Smith-Waterman Score: {epair.score}\n" \
-                           + f"Hit at {data_name}[{epair.dindex}]:\n\t{data[data_name][epair.dindex:len(epair.extended_pair)]}\n" \
-                           + f"Match at {query_name}[{epair.qindex}]\n" \
-                           + f"Extended HSP:\n\t{epair.extended_pair}\n"
+                builder += "" \
+                           + f"Smith-Waterman Score:   {epair.score}                                                                                                                                                                                                                                     " \
+                           + f"Hit at     {data_name}[{epair.dindex}]:{data[data_name][epair.dindex:len(epair.extended_pair)]}                                                                  " \
+                           + f"Match at   {query_name}[{epair.qindex}]                                                                                                                                                                                                                                      " \
+                           + f"Extended HSP: {epair.extended_pair}"
     with open('blastn_out.txt', 'w') as blastn_out:
-        blastn_out.write(builder)"""
+        blastn_out.write(builder)
+
+    
+    
+
+    return jsonify({"The result":builder})
 
 
-
-    return jsonify({"filtered_query":filtered_query})
-
-#{"filtered_query":filtered_query},{"Exact matches":exact_matches},{"Adjacent pairs":adjacent_pairs},{"Extended":extended_pairs},{"Sorted":sorted_epairs}
 if __name__ == '__main__':
     app.run(debug=True)
 

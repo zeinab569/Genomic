@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'NAV.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
 
 class Anothersearch extends StatefulWidget {
   @override
@@ -9,6 +11,56 @@ class Anothersearch extends StatefulWidget {
 }
 
 class _AnothersearchState extends State<Anothersearch> {
+
+  PlatformFile objFile = null;
+
+  void chooseFileUsingFilePicker() async {
+    //-----pick file by file picker,
+
+    var result = await FilePicker.platform.pickFiles(
+      withReadStream:
+          true, // this will return PlatformFile object with read stream
+    );
+    if (result != null) {
+      setState(() {
+        objFile = result.files.single;
+      });
+    }
+  }
+
+  
+
+   void uploadSelectedFile() async {
+    //---Create http package multipart request object
+    final request = http.MultipartRequest(
+      "POST",
+      Uri.parse("Your API URL"),
+    );
+    //-----add other fields if needed
+    request.fields["id"] = "abc";
+
+    //-----add selected file with request
+    request.files.add(new http.MultipartFile(
+        "Your parameter name on server side", objFile.readStream, objFile.size,
+        filename: objFile.name));
+
+    //-------Send request
+    var resp = await request.send();
+
+    //------Read response
+    String result = await resp.stream.bytesToString();
+
+    //-------Your response
+    print(result);
+  }
+
+
+
+
+
+   String _thetext1;
+  String _pattern2;
+
   var checkbox1 =true;
   var radio=0;
   checkbox(bool val){
@@ -98,6 +150,14 @@ class _AnothersearchState extends State<Anothersearch> {
                               ),
                             )
                         ),
+
+
+
+                        validator: (val) {
+                        
+                        },
+                      onChanged: (val) => _thetext1 = val,
+                      //onSaved: (val) => _thetext1 = val,
                       ),
                     ),
                   ),
@@ -110,14 +170,15 @@ class _AnothersearchState extends State<Anothersearch> {
                             padding: const EdgeInsets.only(left:8),
 
                             child: FlatButton(
-                              onPressed:(){
-                                print("choose file");
-                              },
                               child:Text("Choose File"),
-                              color: Colors.white,
-                              textColor: Colors.black,
+                                  color: Colors.white,
+                                  textColor: Colors.black,
+                                  onPressed: () => chooseFileUsingFilePicker()),
+                                     //------Show file name when file is selected
+                                   
+                                  
                             ),
-                          ),
+                          
                           Padding(
                             padding: const EdgeInsets.only(left:8,top: 1),
                             child: Text("No choose file",style: TextStyle(fontWeight: FontWeight.w500),),
@@ -224,6 +285,17 @@ class _AnothersearchState extends State<Anothersearch> {
                                 ),
                               )
                           ),
+
+
+
+
+                          validator: (val) {
+                        //if (val.isEmpty) {
+                          //return "please enter the text ";
+                        //}
+                      },
+                      onChanged: (val) => _pattern2 = val,
+                      //onSaved: (val) => _thetext = val,
                         ),
                       ),
                     ),
@@ -258,6 +330,7 @@ class _AnothersearchState extends State<Anothersearch> {
                   ],
                 ),
               ),
+
               SizedBox(
                 height:9,
               ),
@@ -329,9 +402,36 @@ class _AnothersearchState extends State<Anothersearch> {
                     )
                   ],
                 ),
-              )
+              ),
+
+
+             SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:110,right: 110,top: 10,bottom: 20),
+                child: Container(
+                  color: Colors.teal,
+                  height:50,
+                  width: 20,
+                  child: FlatButton(
+                    onPressed: launchURL1,
+                    child: Text("Blast",style: TextStyle(color: Colors.white,fontSize: 32,),),
+                  ),
+                ),
+              ),
+
             ]
         ),
     );
+  }
+
+  launchURL1() async {
+    const url = 'http://127.0.0.1:5002/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
