@@ -13,7 +13,7 @@ Internal
 class Extended:
     def __init__(self, extended_pair, dindex, qindex):
         """
-        @brief: Hold the extended pair and where it was found in the database.
+        Hold the extended pair and where it was found in the database.
         """
         self.extended_pair = extended_pair
         self.dindex = dindex
@@ -44,20 +44,12 @@ def extend_and_score(pair: AdjacentPair,
                      score=False,
                      printing=True) -> Extended:
     """
-    @brief: Extend an adjacent pair while scoring each extension. Stop extending if the extended word \\
-            scores too low. \\
-    @param pair:     The adjacent pair of words and their indices. \\
-    @param query:    The section the adjacent pair is from. \\
-    @param data:     The section the adjacent pair is going to be extended to. \\
-    @param match:    Smith Waterman score for a match. \\
-    @param mismatch: Smith Waterman score for a mismatch. \\
-    @param gap:      Smith Waterman score for a gap. \\
-    @param minscore: Minimum Smith Waterman score before the extending stops. \\
-    @param score:    Perform Smith Waterman scoring on true. \\
-    @param printing: Print the data after extending on true. \\
-    @return: The string containing both pairs extended to the query from the database and the database index. \\
+     Extend an adjacent pair while scoring each extension. Stop extending if the extended word scores too low. \\
+    return: The string containing both pairs extended to the query from the database and the database index. \\
     """
+
     # find left-most indices
+
     dleftindex = min([pair.dindex1, pair.dindex2])
     qleftindex = min([pair.qindex1, pair.qindex2])
     drightindex = max([pair.dindex1, pair.dindex2])
@@ -124,7 +116,7 @@ def extend_and_score(pair: AdjacentPair,
     return Extended(qextended, dindex, qindex)
 
 """
-External
+External After Formate Data
 """
 
 def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
@@ -135,15 +127,9 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
                   mismatch: int,
                   gap: int) -> Dict[str, Dict[str, List[Extended]]]:
     """
-    @brief: Given adjacent pairs, the database and query, extend the pairs from the query to the database.
-    @param pairs:    The mapped data of adjacent pairs to extend and filter while extending.
-    @param query:    The map of query names to their entire query sequence.
-    @param data:     The map of data names to their entire data sequence.
-    @param minscore: The minimum smith waterman score allowed before needing to remove the word.
-    @param match:    The smith waterman score when two characters are the same.
-    @param mismatch: The smith waterman score when two characters are not the same.
-    @param gap:      The smith waterman score when there is a gap character.
-    @return A map of data names to query names to a list of extended matches with their data base index.
+   
+    return A map of data names to query names to a list of extended matches with their data base index.
+    
     """
     result: Dict[str, Dict[str, List[Extended]]] = {}
     

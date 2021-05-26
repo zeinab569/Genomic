@@ -103,7 +103,7 @@ def blastn(query_file=query_file, data_file=data_file, split_len=20, minscore=22
                            + f"Smith-Waterman Score:   {epair.score}                                                                                                                                                                                                                                     " \
                            + f"Hit at     {data_name}[{epair.dindex}]:{data[data_name][epair.dindex:len(epair.extended_pair)]}                                                                  " \
                            + f"Match at   {query_name}[{epair.qindex}]                                                                                                                                                                                                                                      " \
-                           + f"Extended HSP: {epair.extended_pair}"
+                           + f"Extended High Scoring Pair: {epair.extended_pair}"
     with open('blastn_out.txt', 'w') as blastn_out:
         blastn_out.write(builder)
 

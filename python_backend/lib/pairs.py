@@ -9,7 +9,7 @@ Internal
 class MatchSingleton:
     def __init__(self, word: str, dindex: int, qindex: int):
         """
-        @brief: Hold both words from the pair, how long they are, and where they both are in the query and database.
+         Hold both words from the pair, how long they are, and where they both are in the query and database.
         """
         self.word: str = word
         self.dindex: int = dindex
@@ -24,9 +24,7 @@ class MatchSingleton:
 
 class AdjacentPair:
     def __init__(self, word1: str, word2: str, dindex1: int, qindex1: int, dindex2: int, qindex2: int):
-        """
-        @brief: Hold both words from the pair, how long they are, and where they both are in the query and database.
-        """
+        
         self.word1: str = word1
         self.word2: str = word2
         self.length = len(self.word1)
