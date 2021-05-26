@@ -12,10 +12,9 @@ Internal
 
 def dust(word: str, pattern_len: int=3):
     """
-    @brief: Perform the DUST algorithm on a single word. \\
-    @param word:        The word to perform the DUST algorithm on. \\
-    @param pattern_len: The length of segments to check for self similarity in word. \\
-    @return: The DUST score of the word's self similarity.
+   Perform the DUST algorithm on a single word. \\
+   
+   return: The DUST score of the word's self similarity.
     """
     total_score = 0
     # triplet is a tuple of the 11-letter words split into subsequences of length 3 (triplet)
@@ -34,11 +33,9 @@ External
 
 def dust_filter(data: Dict[str, Dict[str, List[int]]], threshold: float, word_len: int) -> Dict[str, Dict[str, List[int]]]:
     """
-    @brief: Perform the DUST algorithm on formatted data, and remove words which score below the threshold. \\
-            It scores using a self similarity equation (refer to SDUST paper) and removes words under threshold. \\
-    @param data:      The formatted data to perform DUST on \\
-    @param threshold: The DUST score threshold in percent to remove words at \\
-    @return: The input dictionary without words which scored below the threshold.
+    Perform the DUST algorithm on formatted data, and remove words which score below the threshold. \\
+           
+    return: The input dictionary without words which scored below the threshold.
     """
     result: Dict[str, Dict[str, List[int]]] = {}
     total_score: int = 0
